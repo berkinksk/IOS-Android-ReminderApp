@@ -34,14 +34,14 @@ Below are the screenshots demonstrating the main features and pages of the appli
 1. **Home Screen**  
    The Home Screen provides a short description of the application and guidance on how to use it.
    
-   <img src="screenshots/home_screen.jpeg" alt="Home Screen" style="width:645px; height:1245px;">  
+   <img src="screenshots/home_screen.jpeg" alt="Home Screen" style="width:322px; height:622px;">  
    
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*Figure 1: The Home Screen showing an overview and user guide.*
 
 2. **Reminders List Screen**
    This screen displays the current list of reminders and a “+” button to add new ones.
    
-   <img src="screenshots/reminders_list.jpeg" alt="Reminders List Screen" style="width:645px; height:1244px;">  
+   <img src="screenshots/reminders_list.jpeg" alt="Reminders List Screen" style="width:322px; height:622px;">  
    
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*Figure 2: The Reminders List, where users can view and manage existing reminders.*
 
@@ -49,13 +49,13 @@ Below are the screenshots demonstrating the main features and pages of the appli
    This screen allows users to create a new reminder with a title, description, date/time, 
    frequency, and an optional image.
    
-   <img src="screenshots/new_reminder.jpeg" alt="New Reminder Screen" style="width:645px; height:1231px;">  
+   <img src="screenshots/new_reminder.jpeg" alt="New Reminder Screen" style="width:322px; height:615px;">  
    
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*Figure 3: The screen for creating a new reminder.*
 
 4. **Edit Reminder Screen**
    This screen enables users to modify an existing reminder.
-   <img src="screenshots/edit_reminder.jpeg" alt="Edit Reminder Screen" style="width:645px; height:1208px;">
+   <img src="screenshots/edit_reminder.jpeg" alt="Edit Reminder Screen" style="width:322px; height:604px;">
    
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*Figure 4: Editing an existing reminder.*
 
