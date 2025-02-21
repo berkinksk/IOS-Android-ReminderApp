@@ -172,3 +172,30 @@ To add these images, create a `screenshots` folder in the root of the project, p
 ## License
 
 This project is licensed under the **MIT** License. You may use, modify, and distribute this software as long as the license terms are observed.
+
+---
+
+## Screenshots
+
+Below are the screenshots demonstrating the main features and pages of the application.
+
+1. **Home Screen**  
+   The Home Screen provides a short description of the application and guidance on how to use it.
+   ```markdown
+   ![Home Screen](screenshots/home_screen.jpeg)
+   *Figure 1: The Home Screen showing an overview and user guide.*
+
+2. **Reminders List Screen**
+   This screen displays the current list of reminders and a “+” button to add new ones.
+   ![Reminders List Screen](screenshots/reminders_list.jpeg)
+   *Figure 2: The Reminders List, where users can view and manage existing reminders.*
+
+3. **New Reminder Screen**
+   This screen allows users to create a new reminder with a title, description, date/time, frequency, and an optional image.
+   ![New Reminder Screen](screenshots/new_reminder.jpeg)
+   *Figure 3: The screen for creating a new reminder.*
+
+4. **Edit Reminder Screen**
+   This screen enables users to modify or delete an existing reminder.
+   ![Edit Reminder Screen](screenshots/edit_reminder.jpeg)
+   *Figure 4: Editing an existing reminder.*
