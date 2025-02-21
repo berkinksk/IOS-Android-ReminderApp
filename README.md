@@ -29,45 +29,28 @@ A cross-platform Reminder application built with [React Native](https://reactnat
 
 ## Screenshots
 
-Screenshots provide a visual overview of the application's interface. Below are suggested screenshots to include, along with instructions for placement:
+Below are the screenshots demonstrating the main features and pages of the application.
 
 1. **Home Screen**  
-   - Displays a short description of the application and a user guide.  
-   - File name suggestion: `home_screen.png`  
-   - Example usage in this README:
-     ```markdown
-     ![Home Screen](screenshots/home_screen.png)
-     *Figure 1: The Home Screen displaying an overview and user instructions.*
-     ```
+   The Home Screen provides a short description of the application and guidance on how to use it.
+   ```markdown
+   <img src="screenshots/home_screen.jpeg" alt="Home Screen" style="width:645px; height:1245px;">  
+   *Figure 1: The Home Screen showing an overview and user guide.*
 
-2. **Reminders List Screen**  
-   - Showcases the list of existing reminders and the “+” button to add new reminders.  
-   - File name suggestion: `reminders_list.png`  
-   - Example usage:
-     ```markdown
-     ![Reminders List Screen](screenshots/reminders_list.png)
-     *Figure 2: The Reminders List, where users can view and manage existing reminders.*
-     ```
+2. **Reminders List Screen**
+   This screen displays the current list of reminders and a “+” button to add new ones.
+   <img src="screenshots/reminders_list.jpeg" alt="Reminders List Screen" style="width:645px; height:1244px;">  
+   *Figure 2: The Reminders List, where users can view and manage existing reminders.*
 
-3. **New Reminder Screen**  
-   - Demonstrates how to create a new reminder with date/time and frequency settings.  
-   - File name suggestion: `new_reminder.png`  
-   - Example usage:
-     ```markdown
-     ![New Reminder Screen](screenshots/new_reminder.png)
-     *Figure 3: The screen for creating a new reminder with flexible scheduling options.*
-     ```
+3. **New Reminder Screen**
+   This screen allows users to create a new reminder with a title, description, date/time, frequency, and an optional image.
+   <img src="screenshots/new_reminder.jpeg" alt="New Reminder Screen" style="width:645px; height:1231px;">  
+   *Figure 3: The screen for creating a new reminder.*
 
-4. **Edit Reminder Screen**  
-   - Illustrates how to modify an existing reminder or delete it.  
-   - File name suggestion: `edit_reminder.png`  
-   - Example usage:
-     ```markdown
-     ![Edit Reminder Screen](screenshots/edit_reminder.png)
-     *Figure 4: Editing or deleting an existing reminder.*
-     ```
-
-To add these images, create a `screenshots` folder in the root of the project, place your images there, and reference them in this README as shown above.
+4. **Edit Reminder Screen**
+   This screen enables users to modify existing reminder.
+   <img src="screenshots/edit_reminder.jpeg" alt="Edit Reminder Screen" style="width:645px; height:1208px;">
+   *Figure 4: Editing an existing reminder.*
 
 ---
 
@@ -172,30 +155,3 @@ To add these images, create a `screenshots` folder in the root of the project, p
 ## License
 
 This project is licensed under the **MIT** License. You may use, modify, and distribute this software as long as the license terms are observed.
-
----
-
-## Screenshots
-
-Below are the screenshots demonstrating the main features and pages of the application.
-
-1. **Home Screen**  
-   The Home Screen provides a short description of the application and guidance on how to use it.
-   ```markdown
-   ![Home Screen](screenshots/home_screen.jpeg)
-   *Figure 1: The Home Screen showing an overview and user guide.*
-
-2. **Reminders List Screen**
-   This screen displays the current list of reminders and a “+” button to add new ones.
-   ![Reminders List Screen](screenshots/reminders_list.jpeg)
-   *Figure 2: The Reminders List, where users can view and manage existing reminders.*
-
-3. **New Reminder Screen**
-   This screen allows users to create a new reminder with a title, description, date/time, frequency, and an optional image.
-   ![New Reminder Screen](screenshots/new_reminder.jpeg)
-   *Figure 3: The screen for creating a new reminder.*
-
-4. **Edit Reminder Screen**
-   This screen enables users to modify or delete an existing reminder.
-   ![Edit Reminder Screen](screenshots/edit_reminder.jpeg)
-   *Figure 4: Editing an existing reminder.*
