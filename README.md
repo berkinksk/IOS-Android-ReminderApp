@@ -33,7 +33,6 @@ Below are the screenshots demonstrating the main features and pages of the appli
 
 1. **Home Screen**  
    The Home Screen provides a short description of the application and guidance on how to use it.
-   ```markdown
    <img src="screenshots/home_screen.jpeg" alt="Home Screen" style="width:645px; height:1245px;">  
    *Figure 1: The Home Screen showing an overview and user guide.*
 
@@ -43,12 +42,13 @@ Below are the screenshots demonstrating the main features and pages of the appli
    *Figure 2: The Reminders List, where users can view and manage existing reminders.*
 
 3. **New Reminder Screen**
-   This screen allows users to create a new reminder with a title, description, date/time, frequency, and an optional image.
+   This screen allows users to create a new reminder with a title, description, date/time, 
+   frequency, and an optional image.
    <img src="screenshots/new_reminder.jpeg" alt="New Reminder Screen" style="width:645px; height:1231px;">  
    *Figure 3: The screen for creating a new reminder.*
 
 4. **Edit Reminder Screen**
-   This screen enables users to modify existing reminder.
+   This screen enables users to modify an existing reminder.
    <img src="screenshots/edit_reminder.jpeg" alt="Edit Reminder Screen" style="width:645px; height:1208px;">
    *Figure 4: Editing an existing reminder.*
 
