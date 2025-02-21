@@ -23,7 +23,7 @@ export interface Reminder {
   notificationId?: string;
   frequency?: 'none' | 'daily' | 'weekly' | 'custom';
   customSchedule?: {
-    weekday: number; // 1=Mon ... 7=Sun
+    weekday: number;
     hour: number;
     minute: number;
   }[];
@@ -34,7 +34,6 @@ interface ReminderFormProps {
   initialValues?: Reminder;
 }
 
-// For the "custom" frequency option:
 const weekdaysMap = [
   { label: 'Monday', value: 1 },
   { label: 'Tuesday', value: 2 },
@@ -54,67 +53,24 @@ const ReminderForm: React.FC<ReminderFormProps> = ({ onSave, initialValues }) =>
     initialValues?.image ? { uri: initialValues.image } : null
   );
 
-  // Frequency state
   const [frequency, setFrequency] = useState<'none' | 'daily' | 'weekly' | 'custom'>(
     initialValues?.frequency || 'none'
   );
-
-  // For "custom" frequency, store multiple day/time combos
   const [customSchedule, setCustomSchedule] = useState<
     { weekday: number; hour: number; minute: number }[]
   >(initialValues?.customSchedule || []);
-
-  // Modal visibility states
   const [frequencyModalVisible, setFrequencyModalVisible] = useState(false);
   const [dayPickerVisible, setDayPickerVisible] = useState(false);
   const [timePickerVisible, setTimePickerVisible] = useState(false);
-
-  // Temporary picks for day/time
   const [tempWeekday, setTempWeekday] = useState<number>(1);
   const [tempTime, setTempTime] = useState<Date>(new Date());
 
-  // ====================== Date/time for the main "date" field ======================
   const handleDateChange = (_: any, selectedDate?: Date) => {
     const currentDate = selectedDate || date;
     setShowDatePicker(false);
     setDate(currentDate);
   };
 
-  // ====================== Image picking ======================
-  const openImagePicker = async () => {
-    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (status !== 'granted') {
-      alert('Sorry, we need permission to access your gallery!');
-      return;
-    }
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-    if (!result.canceled && result.assets?.length) {
-      setImage({ uri: result.assets[0].uri });
-    }
-  };
-
-  const takePicture = async () => {
-    const { status } = await ImagePicker.requestCameraPermissionsAsync();
-    if (status !== 'granted') {
-      alert('Sorry, we need permission to access your camera!');
-      return;
-    }
-    const result = await ImagePicker.launchCameraAsync({
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-    if (!result.canceled && result.assets?.length) {
-      setImage({ uri: result.assets[0].uri });
-    }
-  };
-
-  // ====================== Custom frequency logic ======================
   const addCustomDayTime = () => {
     setTempWeekday(1);
     setTempTime(new Date());
@@ -123,24 +79,20 @@ const ReminderForm: React.FC<ReminderFormProps> = ({ onSave, initialValues }) =>
 
   const confirmDayPicker = () => {
     setDayPickerVisible(false);
-    setTempTime(new Date());
     setTimePickerVisible(true);
   };
 
-  const handleTimePicked = (_: any, selectedDate?: Date) => {
+  const handleTimeChange = (_: any, selectedDate?: Date) => {
+    if (selectedDate) setTempTime(selectedDate);
+  };
+
+  const confirmTimeSelection = () => {
     setTimePickerVisible(false);
-    if (selectedDate) {
-      setTempTime(selectedDate);
-    }
-    const hour = selectedDate ? selectedDate.getHours() : tempTime.getHours();
-    const minute = selectedDate ? selectedDate.getMinutes() : tempTime.getMinutes();
+    const hour = tempTime.getHours();
+    const minute = tempTime.getMinutes();
     setCustomSchedule((prev) => [
       ...prev,
-      {
-        weekday: tempWeekday,
-        hour,
-        minute,
-      },
+      { weekday: tempWeekday, hour, minute }
     ]);
   };
 
@@ -148,7 +100,6 @@ const ReminderForm: React.FC<ReminderFormProps> = ({ onSave, initialValues }) =>
     setCustomSchedule((prev) => prev.filter((_, i) => i !== index));
   };
 
-  // ====================== Saving the reminder ======================
   const handleSave = () => {
     if (!title.trim()) {
       alert('Please enter a title for your reminder.');
@@ -166,59 +117,92 @@ const ReminderForm: React.FC<ReminderFormProps> = ({ onSave, initialValues }) =>
     onSave(reminder);
   };
 
+  const openImagePicker = async () => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== 'granted') {
+      alert('Permission needed!');
+      return;
+    }
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+    if (!result.canceled && result.assets?.length) {
+      setImage({ uri: result.assets[0].uri });
+    }
+  };
+
+  const takePicture = async () => {
+    const { status } = await ImagePicker.requestCameraPermissionsAsync();
+    if (status !== 'granted') {
+      alert('Camera permission needed!');
+      return;
+    }
+    const result = await ImagePicker.launchCameraAsync({
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+    if (!result.canceled && result.assets?.length) {
+      setImage({ uri: result.assets[0].uri });
+    }
+  };
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      {/* Title */}
       <Text style={styles.label}>Title</Text>
       <TextInput
         style={styles.input}
         value={title}
         onChangeText={setTitle}
         placeholder="Enter reminder title"
+        placeholderTextColor="#666"
       />
 
-      {/* Description */}
       <Text style={styles.label}>Description</Text>
       <TextInput
         style={[styles.input, styles.textArea]}
         value={description}
         onChangeText={setDescription}
         placeholder="Enter reminder description (optional)"
+        placeholderTextColor="#666"
         multiline
       />
 
-      {/* Date & Time */}
-      <Text style={styles.label}>Date & Time</Text>
-      <TouchableOpacity style={styles.dateButton} onPress={() => setShowDatePicker(true)}>
-        <Text style={styles.dateText}>{date.toLocaleString()}</Text>
-      </TouchableOpacity>
-      {showDatePicker && (
-        <DateTimePicker
-          value={date}
-          mode="datetime"
-          display="default"
-          onChange={handleDateChange}
-        />
+      {frequency !== 'custom' && (
+        <>
+          <Text style={styles.label}>Date & Time</Text>
+          <TouchableOpacity
+            style={styles.dateButton}
+            onPress={() => setShowDatePicker(true)}
+          >
+            <Text style={styles.dateText}>{date.toLocaleString()}</Text>
+          </TouchableOpacity>
+          {showDatePicker && (
+            <DateTimePicker
+              value={date}
+              mode="datetime"
+              display="default"
+              onChange={handleDateChange}
+            />
+          )}
+        </>
       )}
 
-      {/* Frequency Picker Field */}
       <Text style={styles.label}>Frequency</Text>
       <TouchableOpacity
         style={styles.frequencyButton}
         onPress={() => setFrequencyModalVisible(true)}
       >
         <Text style={styles.frequencyText}>
-          {frequency === 'none'
-            ? 'No Repeat'
-            : frequency === 'daily'
-            ? 'Daily'
-            : frequency === 'weekly'
-            ? 'Weekly'
-            : 'Custom'}
+          {frequency === 'none' ? 'No Repeat' : 
+           frequency === 'daily' ? 'Daily' : 
+           frequency === 'weekly' ? 'Weekly' : 'Custom'}
         </Text>
       </TouchableOpacity>
 
-      {/* Frequency Picker Modal */}
       <Modal
         visible={frequencyModalVisible}
         transparent={true}
@@ -229,15 +213,14 @@ const ReminderForm: React.FC<ReminderFormProps> = ({ onSave, initialValues }) =>
           <View style={styles.modalContent}>
             <Picker
               selectedValue={frequency}
-              onValueChange={(val) =>
-                setFrequency(val as 'none' | 'daily' | 'weekly' | 'custom')
-              }
+              onValueChange={(val) => setFrequency(val as any)}
               style={styles.picker}
+              itemStyle={styles.pickerItem}
             >
-              <Picker.Item label="No Repeat" value="none" color="#000" />
-              <Picker.Item label="Daily" value="daily" color="#000" />
-              <Picker.Item label="Weekly" value="weekly" color="#000" />
-              <Picker.Item label="Custom" value="custom" color="#000" />
+              <Picker.Item label="No Repeat" value="none" />
+              <Picker.Item label="Daily" value="daily" />
+              <Picker.Item label="Weekly" value="weekly" />
+              <Picker.Item label="Custom" value="custom" />
             </Picker>
             <TouchableOpacity
               style={styles.modalButton}
@@ -249,19 +232,15 @@ const ReminderForm: React.FC<ReminderFormProps> = ({ onSave, initialValues }) =>
         </View>
       </Modal>
 
-      {/* If user chose "custom," show day/time combos */}
       {frequency === 'custom' && (
         <View style={styles.customContainer}>
           <Text style={styles.label}>Custom Days/Times</Text>
           {customSchedule.map((item, index) => {
-            const dayLabel =
-              weekdaysMap.find((w) => w.value === item.weekday)?.label || '???';
-            const hour = item.hour.toString().padStart(2, '0');
-            const minute = item.minute.toString().padStart(2, '0');
+            const dayLabel = weekdaysMap.find(w => w.value === item.weekday)?.label || '???';
             return (
               <View key={index} style={styles.customItem}>
                 <Text style={styles.customItemText}>
-                  {dayLabel} at {hour}:{minute}
+                  {dayLabel} at {item.hour.toString().padStart(2, '0')}:{item.minute.toString().padStart(2, '0')}
                 </Text>
                 <TouchableOpacity onPress={() => removeCombo(index)}>
                   <Text style={styles.removeItemText}>×</Text>
@@ -275,7 +254,6 @@ const ReminderForm: React.FC<ReminderFormProps> = ({ onSave, initialValues }) =>
         </View>
       )}
 
-      {/* Day Picker Modal */}
       <Modal
         visible={dayPickerVisible}
         transparent={true}
@@ -284,19 +262,18 @@ const ReminderForm: React.FC<ReminderFormProps> = ({ onSave, initialValues }) =>
       >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
-            <Text style={styles.modalLabel}>Select Day of Week</Text>
+            <Text style={styles.modalLabel}>Select Day</Text>
             <Picker
-              // The key fix: convert the numeric day to string in <Picker.Item>, parse it back here
               selectedValue={String(tempWeekday)}
               onValueChange={(val) => setTempWeekday(parseInt(val))}
               style={styles.picker}
+              itemStyle={styles.pickerItem}
             >
               {weekdaysMap.map((w) => (
-                <Picker.Item
-                  key={w.value}
-                  label={w.label}
+                <Picker.Item 
+                  key={w.value} 
+                  label={w.label} 
                   value={String(w.value)}
-                  color="#000"
                 />
               ))}
             </Picker>
@@ -307,25 +284,32 @@ const ReminderForm: React.FC<ReminderFormProps> = ({ onSave, initialValues }) =>
         </View>
       </Modal>
 
-      {/* Time Picker Modal */}
-      {timePickerVisible && (
-        <DateTimePicker
-          value={tempTime}
-          mode="time"
-          display="default"
-          onChange={(event, selectedDate) => {
-            setTimePickerVisible(false);
-            if (selectedDate) {
-              setTempTime(selectedDate);
-            }
-            const hour = selectedDate ? selectedDate.getHours() : tempTime.getHours();
-            const minute = selectedDate ? selectedDate.getMinutes() : tempTime.getMinutes();
-            setCustomSchedule((prev) => [...prev, { weekday: tempWeekday, hour, minute }]);
-          }}
-        />
-      )}
+      <Modal
+        visible={timePickerVisible}
+        transparent={true}
+        animationType="slide"
+        onRequestClose={() => setTimePickerVisible(false)}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalLabel}>Select Time</Text>
+            <DateTimePicker
+              value={tempTime}
+              mode="time"
+              display="spinner"
+              onChange={handleTimeChange}
+              textColor="#000000"
+            />
+            <TouchableOpacity
+              style={styles.modalButton}
+              onPress={confirmTimeSelection}
+            >
+              <Text style={styles.modalButtonText}>Done</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
 
-      {/* Image Picker */}
       <Text style={styles.label}>Attach Image</Text>
       <View style={styles.imagePickerContainer}>
         <TouchableOpacity style={styles.imagePickerButton} onPress={openImagePicker}>
@@ -336,7 +320,6 @@ const ReminderForm: React.FC<ReminderFormProps> = ({ onSave, initialValues }) =>
         </TouchableOpacity>
       </View>
 
-      {/* Image Preview */}
       {image && (
         <View style={styles.imagePreviewContainer}>
           <Image source={image} style={styles.previewImage} resizeMode="cover" />
@@ -346,7 +329,6 @@ const ReminderForm: React.FC<ReminderFormProps> = ({ onSave, initialValues }) =>
         </View>
       )}
 
-      {/* Save Button */}
       <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
         <Text style={styles.saveButtonText}>Save Reminder</Text>
       </TouchableOpacity>
@@ -362,6 +344,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginVertical: 8,
     fontWeight: 'bold',
+    color: '#000',
   },
   input: {
     borderWidth: 1,
@@ -369,6 +352,8 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     padding: 10,
     fontSize: 16,
+    backgroundColor: '#fff',
+    color: '#000',
   },
   textArea: {
     height: 100,
@@ -381,6 +366,7 @@ const styles = StyleSheet.create({
     padding: 10,
     alignItems: 'center',
     marginVertical: 8,
+    backgroundColor: '#fff',
   },
   dateText: {
     fontSize: 16,
@@ -405,20 +391,26 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.5)',
   },
   modalContent: {
-    backgroundColor: '#fff',
+    backgroundColor: '#f8f9fa',
     paddingHorizontal: 20,
     paddingVertical: 10,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
   },
   modalLabel: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: 'bold',
-    marginBottom: 10,
+    marginBottom: 15,
     color: '#000',
+    textAlign: 'center',
   },
   picker: {
     height: 200,
     width: '100%',
+  },
+  pickerItem: {
     color: '#000',
+    fontSize: 18,
   },
   modalButton: {
     marginTop: 10,
@@ -430,6 +422,7 @@ const styles = StyleSheet.create({
   modalButtonText: {
     color: '#fff',
     fontWeight: 'bold',
+    fontSize: 16,
   },
   customContainer: {
     marginVertical: 10,
@@ -437,6 +430,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: 8,
+    backgroundColor: '#fff',
   },
   customItem: {
     flexDirection: 'row',
