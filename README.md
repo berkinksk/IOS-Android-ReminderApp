@@ -36,14 +36,14 @@ Below are the screenshots demonstrating the main features and pages of the appli
    
    <img src="screenshots/home_screen.jpeg" alt="Home Screen" style="width:645px; height:1245px;">  
    
-   *Figure 1: The Home Screen showing an overview and user guide.*
+<p align="center"><em>Figure 1: The Home Screen showing an overview and user guide.</em></p>
 
 2. **Reminders List Screen**
    This screen displays the current list of reminders and a “+” button to add new ones.
    
    <img src="screenshots/reminders_list.jpeg" alt="Reminders List Screen" style="width:645px; height:1244px;">  
    
-   *Figure 2: The Reminders List, where users can view and manage existing reminders.*
+<p align="center"><em>Figure 2: The Reminders List, where users can view and manage existing reminders.</em></p>
 
 3. **New Reminder Screen**
    This screen allows users to create a new reminder with a title, description, date/time, 
@@ -51,13 +51,13 @@ Below are the screenshots demonstrating the main features and pages of the appli
    
    <img src="screenshots/new_reminder.jpeg" alt="New Reminder Screen" style="width:645px; height:1231px;">  
    
-   *Figure 3: The screen for creating a new reminder.*
+<p align="center"><em>Figure 3: The screen for creating a new reminder.</em></p>
 
 4. **Edit Reminder Screen**
    This screen enables users to modify an existing reminder.
    <img src="screenshots/edit_reminder.jpeg" alt="Edit Reminder Screen" style="width:645px; height:1208px;">
    
-   *Figure 4: Editing an existing reminder.*
+<p align="center"><em>Figure 4: Editing an existing reminder.</em></p>
 
 ---
 
