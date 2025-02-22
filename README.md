@@ -31,35 +31,35 @@ A cross-platform Reminder application built with [React Native](https://reactnat
 
 Below are the screenshots demonstrating the main features and pages of the application.
 
-1. **Home Screen**  
-   The Home Screen provides a short description of the application and guidance on how to use it.
-   
-   <img src="screenshots/home_screen.jpeg" alt="Home Screen" style="width:370px; height:715px;">  
-   
+<div align="center" style="max-width: 100%; overflow: auto;">
+
+### Home Screen
+<img src="screenshots/home_screen.jpeg" alt="Home Screen" style="width: 370px; height: auto;">
+
 *Figure 1: The Home Screen showing an overview and user guide.*
 
-2. **Reminders List Screen**
-   This screen displays the current list of reminders and a “+” button to add new ones.
-   
-   <img src="screenshots/reminders_list.jpeg" alt="Reminders List Screen" style="width:370px; height:715px;">  
-   
+---
+
+### Reminders List Screen
+<img src="screenshots/reminders_list.jpeg" alt="Reminders List Screen" style="width: 370px; height: auto;">
+
 *Figure 2: The Reminders List, where users can view and manage existing reminders.*
 
-3. **New Reminder Screen**
-   This screen allows users to create a new reminder with a title, description, date/time, 
-   frequency, and an optional image.
-   
-   <img src="screenshots/new_reminder.jpeg" alt="New Reminder Screen" style="width:370px; height:707px;">  
-   
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*Figure 3: The screen for creating a new reminder.*
+---
 
-4. **Edit Reminder Screen**
+### New Reminder Screen
+<img src="screenshots/new_reminder.jpeg" alt="New Reminder Screen" style="width: 370px; height: auto;">
 
-   This screen enables users to modify an existing reminder.
+*Figure 3: The screen for creating a new reminder.*
 
-   <img src="screenshots/edit_reminder.jpeg" alt="Edit Reminder Screen" style="width:370px; height:694px;">
-   
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*Figure 4: Editing an existing reminder.*
+---
+
+### Edit Reminder Screen
+<img src="screenshots/edit_reminder.jpeg" alt="Edit Reminder Screen" style="width: 370px; height: auto;">
+
+*Figure 4: Editing an existing reminder.*
+
+</div>
 
 ---
 
