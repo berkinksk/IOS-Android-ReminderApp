@@ -35,16 +35,31 @@ export default function RemindersIndex() {
   };
 
   const handleDeleteReminder = async (id: string) => {
+    // Find the reminder to delete
     const reminderToDelete = reminders.find((r) => r.id === id);
-    if (reminderToDelete?.notificationId) {
-      await NotificationService.cancelNotification(reminderToDelete.notificationId);
-    }
-    const updatedReminders = reminders.filter((r) => r.id !== id);
-    setReminders(updatedReminders);
-    try {
-      await AsyncStorage.setItem('reminders', JSON.stringify(updatedReminders));
-    } catch (error) {
-      console.error('Error saving reminders:', error);
+    
+    if (reminderToDelete) {
+      try {
+        // Cancel the single notification if it exists
+        if (reminderToDelete.notificationId) {
+          await NotificationService.cancelNotification(reminderToDelete.notificationId);
+        }
+        
+        // Cancel multiple notifications if they exist (for custom schedules)
+        if (reminderToDelete.notificationIds && reminderToDelete.notificationIds.length > 0) {
+          await NotificationService.cancelMultipleNotifications(reminderToDelete.notificationIds);
+        }
+        
+        // Update the reminders list
+        const updatedReminders = reminders.filter((r) => r.id !== id);
+        setReminders(updatedReminders);
+        
+        // Save the updated list to storage
+        await AsyncStorage.setItem('reminders', JSON.stringify(updatedReminders));
+      } catch (error) {
+        console.error('Error during reminder deletion:', error);
+        alert('There was a problem deleting your reminder');
+      }
     }
   };
 
