@@ -23,6 +23,7 @@ interface ReminderData {
   date: string;
   image: string | null;
   notificationId?: string;
+  notificationIds?: string[]; // Added array to store multiple notification IDs
   frequency?: 'none' | 'daily' | 'weekly' | 'custom';
   customSchedule?: DayTime[];
 }
@@ -42,9 +43,9 @@ class NotificationService {
     return true;
   }
 
-  async scheduleNotification(reminder: ReminderData): Promise<string | null> {
+  async scheduleNotification(reminder: ReminderData): Promise<{ id: string | null, ids?: string[] }> {
     const hasPermission = await this.requestPermissions();
-    if (!hasPermission) return null;
+    if (!hasPermission) return { id: null };
 
     let notificationContent: Notifications.NotificationContentInput = {
       title: reminder.title,
@@ -75,7 +76,7 @@ class NotificationService {
 
     // If "custom," schedule multiple weekly notifications
     if (reminder.frequency === 'custom' && reminder.customSchedule?.length) {
-      let lastNotificationId: string | null = null;
+      const notificationIds: string[] = [];
       for (const combo of reminder.customSchedule) {
         const trigger = {
           type: 'calendar',
@@ -85,15 +86,17 @@ class NotificationService {
           minute: combo.minute,
         } as any;
         try {
-          lastNotificationId = await Notifications.scheduleNotificationAsync({
+          const notificationId = await Notifications.scheduleNotificationAsync({
             content: notificationContent,
             trigger,
           });
+          notificationIds.push(notificationId);
         } catch (error) {
           console.error('Error scheduling custom notification:', error);
         }
       }
-      return lastNotificationId;
+      // Return all notification IDs instead of just the last one
+      return { id: notificationIds[0] || null, ids: notificationIds };
     }
 
     // Otherwise, handle none/daily/weekly
@@ -134,21 +137,37 @@ class NotificationService {
         content: notificationContent,
         trigger,
       });
-      return notificationId;
+      return { id: notificationId };
     } catch (error) {
       console.error('Error scheduling notification:', error);
-      return null;
+      return { id: null };
     }
   }
 
   async cancelNotification(notificationId: string | null): Promise<void> {
     if (notificationId) {
-      await Notifications.cancelScheduledNotificationAsync(notificationId);
+      try {
+        await Notifications.cancelScheduledNotificationAsync(notificationId);
+      } catch (error) {
+        console.error('Error canceling notification:', error);
+      }
+    }
+  }
+
+  async cancelMultipleNotifications(notificationIds: string[] | undefined): Promise<void> {
+    if (!notificationIds || notificationIds.length === 0) return;
+    
+    for (const id of notificationIds) {
+      await this.cancelNotification(id);
     }
   }
 
   async cancelAllNotifications(): Promise<void> {
-    await Notifications.cancelAllScheduledNotificationsAsync();
+    try {
+      await Notifications.cancelAllScheduledNotificationsAsync();
+    } catch (error) {
+      console.error('Error canceling all notifications:', error);
+    }
   }
 }
 
