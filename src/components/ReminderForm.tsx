@@ -21,6 +21,7 @@ export interface Reminder {
   date: string;
   image: string | null;
   notificationId?: string;
+  notificationIds?: string[]; // Added this to store multiple notification IDs
   frequency?: 'none' | 'daily' | 'weekly' | 'custom';
   customSchedule?: {
     weekday: number;
