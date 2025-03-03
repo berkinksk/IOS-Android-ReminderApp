@@ -10,13 +10,25 @@ export default function NewReminderScreen() {
   const router = useRouter();
 
   const handleSaveReminder = async (reminder: Reminder) => {
-    const notificationId = await NotificationService.scheduleNotification(reminder);
-    const newReminder = { ...reminder, notificationId };
-
     try {
+      // Schedule notifications and get IDs
+      const { id, ids } = await NotificationService.scheduleNotification(reminder);
+      
+      // Create new reminder object with notification IDs
+      const newReminder = { 
+        ...reminder, 
+        notificationId: id, 
+        notificationIds: ids 
+      };
+
+      // Get existing reminders
       const storedReminders = await AsyncStorage.getItem('reminders');
       const reminders = storedReminders ? JSON.parse(storedReminders) : [];
+      
+      // Add new reminder to list
       const updatedReminders = [...reminders, newReminder];
+      
+      // Save updated list
       await AsyncStorage.setItem('reminders', JSON.stringify(updatedReminders));
 
       // Return to the Reminders list
