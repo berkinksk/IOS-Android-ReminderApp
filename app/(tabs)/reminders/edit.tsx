@@ -16,18 +16,39 @@ export default function EditReminderScreen() {
 
   const handleSaveReminder = async (updatedReminder: Reminder) => {
     try {
+      // Cancel all existing notifications for this reminder
       if (reminder.notificationId) {
         await NotificationService.cancelNotification(reminder.notificationId);
       }
-      const notificationId = await NotificationService.scheduleNotification(updatedReminder);
+      
+      if (reminder.notificationIds && reminder.notificationIds.length > 0) {
+        await NotificationService.cancelMultipleNotifications(reminder.notificationIds);
+      }
+      
+      // Schedule new notifications and get IDs
+      const { id, ids } = await NotificationService.scheduleNotification(updatedReminder);
 
+      // Update the reminder with new notification IDs
+      const finalReminder = {
+        ...updatedReminder,
+        notificationId: id,
+        notificationIds: ids
+      };
+
+      // Update the reminder in storage
       const storedReminders = await AsyncStorage.getItem('reminders');
       let reminders = storedReminders ? JSON.parse(storedReminders) : [];
+      
+      // Replace the old reminder with the updated one
       reminders = reminders.map((item: Reminder) =>
-        item.id === reminder.id ? { ...updatedReminder, notificationId } : item
+        item.id === reminder.id ? finalReminder : item
       );
+      
+      // Save updated list
       await AsyncStorage.setItem('reminders', JSON.stringify(reminders));
-      router.replace('/(tabs)/reminders'); // Return to the Reminders list
+      
+      // Return to Reminders list
+      router.replace('/(tabs)/reminders');
     } catch (error) {
       console.error('Error updating reminder', error);
       alert('There was a problem updating your reminder');
